@@ -1,0 +1,24 @@
+{
+    "name": "Bing Search Automator",
+    "version": "1.0.0",
+    "description": "Chrome / Edge extension for Automatic Bing Search",
+    "manifest_version": 3,
+    "author": "Andrea Corriga",
+    "action":{
+        "default_popup": "index.html",
+        "default_title": "Bing Search Automator"
+    },
+    "content_scripts": [ 
+        {
+            "matches": ["<all_urls>"],
+            "js": [
+                "./js/popup.js"
+            ]
+        }
+    ],
+     "icons": { 
+        "16": "./img/icon16.png",
+        "48": "./img/icon48.png",
+       "128": "./img/icon128.png" 
+    }
+}

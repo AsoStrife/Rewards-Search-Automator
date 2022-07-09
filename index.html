@@ -1,0 +1,43 @@
+<!-- CSS only -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bing Search Automator</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/custom.css" rel="stylesheet">
+  </head>
+  <body class="pt-25">
+
+    <div class="container-fluid" style="text-align:center;">
+        <h1>Bing Search Automator</h1>
+        <p> <span id="numberOfSearch">0</span> / <span id="totSearch">0</span></p>
+
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                role="progressbar" 
+                aria-valuemin="0" 
+                aria-valuemax="100" 
+                style="width: 0%">
+            </div>
+        </div>
+        
+        <button type="button" class="btn btn-primary mt-25" id="search_button">Make search</button>
+                
+        <nav class="navbar navbar-dark bg-primary fixed-bottom ">
+            <div class="container-md">
+                <a class="navbar-brand" href="https://andreacorriga.com" target="_blank" title="Andrea Corriga (@AsoStrife)">
+                    <small>Andrea Corriga (@AsoStrife)</small>
+                </a>
+            </div>
+        </nav>
+            
+    </div>
+    
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script type="module" src="./js/popup.js"></script>
+    <script type="module" src="./js/event.js"></script>
+  </body>
+</html>

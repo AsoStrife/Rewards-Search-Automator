@@ -1,0 +1,12 @@
+body{
+    width:350px; 
+    height: 280px;
+}
+
+.pt-25 {
+    padding-top:25px;
+}
+
+.mt-25 {
+    margin-top:25px;
+}
