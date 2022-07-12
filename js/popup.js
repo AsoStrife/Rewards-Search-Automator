@@ -2,31 +2,78 @@ import words from '../data/words.js'
 
 const timer = ms => new Promise(res => setTimeout(res, ms))
 
+// Wait time between searches
+const milliseconds = 500
+
+// Progressbar object
 let progress = document.querySelector(".progress-bar")
 
-const totSearch = 60
+// Default value
+let numberOfSearch = 90 
 
-$("#totSearch").html(totSearch)
+$('#numberOfSearchForm').val(numberOfSearch)
+$("#totNumberOfSearchSpan").html(numberOfSearch)
+
+$('#numberOfSearchForm').on('change', function () {
+    numberOfSearch = $('#numberOfSearchForm').val()
+    $('#totNumberOfSearchSpan').html(numberOfSearch)
+
+})
 
 $("#search_button").on("click", () => {
     doSearch()
 })
 
+/**
+ * Perform random search on Bing
+ */
 async function doSearch() {
-    for (var i = 0; i < totSearch; i++) {
+
+    deactivateForms()
+
+    for (var i = 0; i < numberOfSearch; i++) {
 
         let random_number = Math.floor(Math.random() * words.length)
 
-        let perc = parseInt( ( (i + 1) / totSearch) * 100)
+        let perc = parseInt( ( (i + 1) / numberOfSearch) * 100)
 
         chrome.tabs.update({
-            url: `https:www.bing.com/search?q=${words[random_number]}` //&form=QBLH&sp=-1&pq=&sc=0-0&qs=n&sk=&cvid=7EF859AA394440DD99A90C72195D9EA8
+            url: `https:www.bing.com/search?q=${words[random_number]}`
         })
 
-        progress.style.width = perc + "%";
-        progress.innerText = perc + "%";
+        setProgress(perc)
         
-        $("#numberOfSearch").html(i + 1)
-        await timer(500)
+        $("#numberOfSearchSpan").html(i + 1)
+        await timer(milliseconds)
     }
+
+    setProgress(0)
+    activateForms()
 } 
+
+/**
+ * Deactivate Make search button 
+ * and Number of Search form
+ */
+function deactivateForms() {
+    $('#search_button').prop("disabled", true)
+    $('#numberOfSearchForm').prop("disabled", true)
+}
+
+/**
+ * Activate Make search button 
+ * and Number of Search form
+ */
+function activateForms() {
+    $('#search_button').prop("disabled", false)
+    $('#numberOfSearchForm').prop("disabled", false)
+}
+
+/**
+ * Update progressbar value
+ * @param {*} value 
+ */
+function setProgress(value){
+    progress.style.width = value + "%";
+    progress.innerText = value + "%";
+}

@@ -13,7 +13,7 @@
 
     <div class="container-fluid" style="text-align:center;">
         <h1>Bing Search Automator</h1>
-        <p> <span id="numberOfSearch">0</span> / <span id="totSearch">0</span></p>
+        <p> <span id="numberOfSearchSpan">0</span> / <span id="totNumberOfSearchSpan">0</span></p>
 
         <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated" 
@@ -25,16 +25,28 @@
         </div>
         
         <button type="button" class="btn btn-primary mt-25" id="search_button">Make search</button>
-                
-        <nav class="navbar navbar-dark bg-primary fixed-bottom ">
-            <div class="container-md">
-                <a class="navbar-brand" href="https://andreacorriga.com" target="_blank" title="Andrea Corriga (@AsoStrife)">
-                    <small>Andrea Corriga (@AsoStrife)</small>
-                </a>
-            </div>
-        </nav>
-            
     </div>
+
+    <div class="container mt-30">
+        <label class="form-label">Number of search:</label>
+        <input type="number" 
+                class="form-control form-control-sm " 
+                id="numberOfSearchForm" 
+                placeholder="Number of search"
+                min="1"
+                value="">
+        
+    </div>
+    
+    <nav class="navbar navbar-dark bg-primary fixed-bottom ">
+        <div class="container-md">
+            <a class="navbar-brand" href="https://andreacorriga.com" target="_blank" title="Andrea Corriga (@AsoStrife)">
+                <small>Andrea Corriga (@AsoStrife)</small>
+            </a>
+        </div>
+    </nav>
+            
+    
     
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script type="module" src="./js/popup.js"></script>

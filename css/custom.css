@@ -1,12 +1,19 @@
 body{
     width:350px; 
-    height: 280px;
+    height: 350px;
 }
 
 .pt-25 {
     padding-top:25px;
 }
 
+.mt-15 {
+    margin-top: 15px;
+}
 .mt-25 {
-    margin-top:25px;
+    margin-top: 25px;
+}
+
+.mt-30 {
+    margin-top: 30px;
 }
