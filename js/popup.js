@@ -1,49 +1,61 @@
 import words from '../data/words.js'
 
-const timer = ms => new Promise(res => setTimeout(res, ms))
-
 // Wait time between searches
 const milliseconds = 500
-
-// Progressbar object
-let progress = document.querySelector(".progress-bar")
 
 // Default value
 let numberOfSearch = 90 
 
-$('#numberOfSearchForm').val(numberOfSearch)
-$("#totNumberOfSearchSpan").html(numberOfSearch)
+// Dom Elements for jQuery purpose
+const domElements = {
+    currentSearchNumber: '#currentSearchNumber',
+    totSearchesNumber: '#totSearchesNumber',
+    searchButton: '#searchButton',
+    totSearchesForm: '#totSearchesForm'
+}
 
-$('#numberOfSearchForm').on('change', function () {
-    numberOfSearch = $('#numberOfSearchForm').val()
-    $('#totNumberOfSearchSpan').html(numberOfSearch)
+// Await time between searches
+const timer = ms => new Promise(res => setTimeout(res, ms))
+
+// Progressbar object
+let progress = document.querySelector(".progress-bar")
+
+// Set numberOfSearch default values inside the input
+$(domElements.totSearchesForm).val(numberOfSearch)
+
+// Update the html with default numberOfSearch number
+$(domElements.totSearchesNumber).html(numberOfSearch)
+
+// When change the value inside the input
+$(domElements.totSearchesForm).on('change', function () {
+    numberOfSearch = $(domElements.totSearchesForm).val()
+    $(domElements.totSearchesNumber).html(numberOfSearch)
 
 })
 
-$("#search_button").on("click", () => {
-    doSearch()
+// Start search 
+$(domElements.searchButton).on("click", () => {
+    doSearches()
 })
 
 /**
  * Perform random search on Bing
  */
-async function doSearch() {
+async function doSearches() {
 
     deactivateForms()
 
     for (var i = 0; i < numberOfSearch; i++) {
 
-        let random_number = Math.floor(Math.random() * words.length)
-
-        let perc = parseInt( ( (i + 1) / numberOfSearch) * 100)
+        let randomNumber = Math.floor(Math.random() * words.length)
 
         chrome.tabs.update({
-            url: `https:www.bing.com/search?q=${words[random_number]}`
+            url: `https:www.bing.com/search?q=${words[randomNumber]}`
         })
 
-        setProgress(perc)
+        setProgress( parseInt( ( (i + 1) / numberOfSearch) * 100) )
         
-        $("#numberOfSearchSpan").html(i + 1)
+        $(domElements.currentSearchNumber).html(i + 1)
         await timer(milliseconds)
     }
 
@@ -56,8 +68,8 @@ async function doSearch() {
  * and Number of Search form
  */
 function deactivateForms() {
-    $('#search_button').prop("disabled", true)
-    $('#numberOfSearchForm').prop("disabled", true)
+    $(domElements.searchButton).prop("disabled", true)
+    $(domElements.totSearchesForm).prop("disabled", true)
 }
 
 /**
@@ -65,8 +77,8 @@ function deactivateForms() {
  * and Number of Search form
  */
 function activateForms() {
-    $('#search_button').prop("disabled", false)
-    $('#numberOfSearchForm').prop("disabled", false)
+    $(domElements.searchButton).prop("disabled", false)
+    $(domElements.totSearchesForm).prop("disabled", false)
 }
 
 /**

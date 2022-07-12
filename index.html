@@ -13,7 +13,7 @@
 
     <div class="container-fluid" style="text-align:center;">
         <h1>Bing Search Automator</h1>
-        <p> <span id="numberOfSearchSpan">0</span> / <span id="totNumberOfSearchSpan">0</span></p>
+        <p> <span id="currentSearchNumber">0</span> / <span id="totSearchesNumber">0</span></p>
 
         <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated" 
@@ -24,14 +24,14 @@
             </div>
         </div>
         
-        <button type="button" class="btn btn-primary mt-25" id="search_button">Make search</button>
+        <button type="button" class="btn btn-primary mt-25" id="searchButton">Make searches</button>
     </div>
 
     <div class="container mt-30">
-        <label class="form-label">Number of search:</label>
+        <label class="form-label">Number of searches:</label>
         <input type="number" 
                 class="form-control form-control-sm " 
-                id="numberOfSearchForm" 
+                id="totSearchesForm" 
                 placeholder="Number of search"
                 min="1"
                 value="">
