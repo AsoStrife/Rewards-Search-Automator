@@ -7,4 +7,4 @@ This extension automatically performs 60 search on Bing with a 500ms delay betwe
 
 You can install it from the store: [Bing Search Automator - Chrome Web Store](https://chrome.google.com/webstore/detail/ehpnglljgijenbiknlgpcbnnmhfdgbam/preview?hl=it&authuser=0) or you can deploy the `.zip` package directly in your browser using Developer Mode. 
 
-![](https://github.com/AsoStrife/Bing-Search-Automator/blob/3d2b20c574327fea9291a609b47444154eae250f/img/preview.png?raw=true)
+![](https://github.com/AsoStrife/Bing-Search-Automator/blob/main/img/preview.png?raw=true)
