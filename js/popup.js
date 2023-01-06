@@ -1,5 +1,7 @@
 import words from '../data/words.js'
 
+chrome.runtime.connect({ name: "popup" });
+
 let andreaCorrigaWebsite = 'https://andreacorriga.com'
 
 // Phones for mobile searches
@@ -141,6 +143,7 @@ function openAndreaCorriga() {
  */
 function deactivateForms() {
     $(domElements.desktopButton).prop("disabled", true)
+    $(domElements.mobileButton).prop("disabled", true)
     $(domElements.totSearchesForm).prop("disabled", true)
     $(domElements.totSearchesMobileForm).prop("disabled", true)
 }
@@ -151,6 +154,7 @@ function deactivateForms() {
  */
 function activateForms() {
     $(domElements.desktopButton).prop("disabled", false)
+    $(domElements.mobileButton).prop("disabled", false)
     $(domElements.totSearchesForm).prop("disabled", false)
     $(domElements.totSearchesMobileForm).prop("disabled", false)
 }
@@ -202,14 +206,13 @@ function handleMobileMode(tabId) {
             await doSearchesMobile()
 
             disableDebugger(tabId)
-            
+
             openAndreaCorriga()
         })
 
     })
 
 }
-
 
 function enableDebugger(tabId) {
     chrome.debugger.attach({ tabId }, "1.2", function () {
