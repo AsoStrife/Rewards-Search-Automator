@@ -14,10 +14,10 @@
 
         <div class="container-fluid" style="text-align:center;">
             <h1>Bing Search Automator</h1>
-            <p> <span id="currentSearchNumber">0</span> / <span id="totSearchesNumber">0</span></p>
 
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+            <p> <span id="currentSearchNumber">0</span> / <span id="totSearchesNumber">0</span> Desktop Searches</p>
+            <div class="progress mb-25">
+                <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-desktop" 
                     role="progressbar" 
                     aria-valuemin="0" 
                     aria-valuemax="100" 
@@ -25,7 +25,18 @@
                 </div>
             </div>
             
-            <button type="button" class="btn btn-primary mt-25" id="searchButton">Start</button>
+            <p> <span id="currentSearchMobileNumber">0</span> / <span id="totSearchesMobileNumber">0</span> Mobile Searches</p>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-mobile" 
+                    role="progressbar" 
+                    aria-valuemin="0" 
+                    aria-valuemax="100" 
+                    style="width: 0%">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary mt-25" id="desktopButton">Desktop</button>
+            <button type="button" class="btn btn-primary mt-25" id="mobileButton">Mobile</button>
         </div>
 
         <div class="container mt-30">
@@ -33,12 +44,21 @@
             <input type="number" 
                     class="form-control form-control-sm " 
                     id="totSearchesForm" 
-                    placeholder="Number of search"
+                    placeholder="Number of searches"
                     min="1"
                     value="">
-            
         </div>
         
+        <div class="container mt-30">
+            <label class="form-label">Number of searches mobile:</label>
+            <input type="number" 
+                    class="form-control form-control-sm " 
+                    id="totSearchesMobileForm" 
+                    placeholder="Number of searches mobile"
+                    min="1"
+                    value="">
+        </div>
+
         <nav class="navbar navbar-expand navbar-dark bg-primary fixed-bottom">
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav ms-auto">
