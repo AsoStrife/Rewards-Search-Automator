@@ -2,6 +2,8 @@ import words from '../data/words.js'
 
 chrome.runtime.connect({ name: "popup" });
 
+const appVersion = "v1.4.0"
+
 let andreaCorrigaWebsite = 'https://andreacorriga.com'
 
 // Phones for mobile searches
@@ -22,7 +24,7 @@ phonesArray.forEach(function(phone){
 })
 
 // Wait time between searches
-const milliseconds = 500
+let milliseconds = 500
 
 // Default value
 let numberOfSearches = 90 
@@ -37,7 +39,9 @@ const domElements = {
     desktopButton: '#desktopButton',
     mobileButton: '#mobileButton',
     totSearchesForm: '#totSearchesForm',
-    totSearchesMobileForm: '#totSearchesMobileForm'
+    totSearchesMobileForm: '#totSearchesMobileForm',
+    waitingBetweenSearches: '#waitingBetweenSearches',
+    appVersion: "#appVersion"
 }
 
 // Await time between searches
@@ -47,13 +51,17 @@ const timer = ms => new Promise(res => setTimeout(res, ms))
 let progressDesktop = document.querySelector(".progress-bar-desktop")
 let progressMobile = document.querySelector(".progress-bar-mobile")
 
+// Set the app version number 
+$(domElements.appVersion).html(appVersion)
+
 // Set numberOfSearches default values inside the input
 $(domElements.totSearchesForm).val(numberOfSearches)
 $(domElements.totSearchesMobileForm).val(numberOfSearchesMobile)
+$(domElements.waitingBetweenSearches).val(milliseconds)
 
 // Update the html with default numberOfSearches number 0/totSearches
- $(domElements.totSearchesNumber).html(numberOfSearches)
- $(domElements.totSearchesMobileNumber).html(numberOfSearchesMobile)
+$(domElements.totSearchesNumber).html(numberOfSearches)
+$(domElements.totSearchesMobileNumber).html(numberOfSearchesMobile)
 
 // When change the value inside the input
 $(domElements.totSearchesForm).on('change', function () {
@@ -68,12 +76,16 @@ $(domElements.totSearchesMobileForm).on('change', function () {
 
 })
 
+$(domElements.waitingBetweenSearches).on('change', function () {
+    milliseconds = $(domElements.waitingBetweenSearches).val()
+})
+
 // Start search desktop
 $(domElements.desktopButton).on("click", () => {
     doSearchesDesktop()
 })
 
-// Start search desktop
+// Start search mobile
 $(domElements.mobileButton).on('click', async () => {
     let tabId = await getTabId()
     handleMobileMode(tabId)
@@ -146,6 +158,7 @@ function deactivateForms() {
     $(domElements.mobileButton).prop("disabled", true)
     $(domElements.totSearchesForm).prop("disabled", true)
     $(domElements.totSearchesMobileForm).prop("disabled", true)
+    $(domElements.waitingBetweenSearches).prop("disabled", true)
 }
 
 /**
@@ -157,6 +170,8 @@ function activateForms() {
     $(domElements.mobileButton).prop("disabled", false)
     $(domElements.totSearchesForm).prop("disabled", false)
     $(domElements.totSearchesMobileForm).prop("disabled", false)
+    $(domElements.waitingBetweenSearches).prop("disabled", false)
+
 }
 
 /**

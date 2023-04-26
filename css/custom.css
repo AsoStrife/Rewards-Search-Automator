@@ -28,6 +28,11 @@ body{
 .mt-15 {
     margin-top: 15px;
 }
+
+.mt-20 {
+    margin-top: 20px;
+}
+
 .mt-25 {
     margin-top: 25px;
 }
@@ -54,4 +59,8 @@ body{
 
 .mb-30 {
     margin-bottom: 30px;
+}
+
+.navbar-brand {
+    font-size: 1rem;
 }
