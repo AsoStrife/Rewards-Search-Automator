@@ -1,12 +1,12 @@
 {
-    "name": "Bing Search Automator",
-    "version": "1.4.0",
-    "description": "Chrome / Edge extension for Automatic Bing Search",
+    "name": "Search Automator",
+    "version": "1.4.2",
+    "description": "Chrome and Edge extension to automate searches on the Bing search engine.",
     "manifest_version": 3,
     "author": "Andrea Corriga",
     "action": {
         "default_popup": "index.html",
-        "default_title": "Bing Search Automator"
+        "default_title": "Search Automator"
     },
     "permissions": [
         "debugger"

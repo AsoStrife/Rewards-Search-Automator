@@ -2,7 +2,7 @@ import words from '../data/words.js'
 
 chrome.runtime.connect({ name: "popup" });
 
-const appVersion = "v1.4.0"
+const appVersion = "v1.4.2"
 
 let andreaCorrigaWebsite = 'https://andreacorriga.com'
 
