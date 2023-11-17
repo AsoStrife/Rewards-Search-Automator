@@ -1,6 +1,6 @@
 body{
     width: 450px; 
-    height: 520px;
+    height: 450px;
 }
 
 /***** Padding *****/
@@ -50,8 +50,8 @@ body{
     margin-bottom: 15px;
 }
 
-.mb-15 {
-    margin-bottom: 15px;
+.mb-20 {
+    margin-bottom: 20px;
 }
 .mb-25 {
     margin-bottom: 25px;

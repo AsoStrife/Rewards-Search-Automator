@@ -1,7 +1,6 @@
 import words from '../data/words.js'
-import config from './config.js' 
+import config from 'config.js' 
 
-console.log(config)
 chrome.runtime.connect({ name: "popup" });
 
 var phones = {}
@@ -14,31 +13,35 @@ config.phonesArray.forEach(function(phone){
 const timer = ms => new Promise(res => setTimeout(res, ms))
 
 // Progressbar object
-var progressBar = document.querySelector(".progress-bar-desktop")
+let progressDesktop = document.querySelector(".progress-bar-desktop")
 
-function setDefaultUI() {
-    // Set the app version number 
-    $(config.domElements.appVersion).html(config.general.appVersion)
+// Set the app version number 
+$(config.config.domElements.appVersion).html(config.appVersion)
 
-    // Set numberOfSearches default values inside the input
-    $(config.domElements.totDesktopSearchesForm).val(config.searches.deskop)
-    $(config.domElements.totMobileSearchesForm).val(config.searches.mobile)
-    $(config.domElements.waitingBetweenSearchesForm).val(config.searches.milliseconds)
-}
+// Set numberOfSearches default values inside the input
+$(config.domElements.totSearchesForm).val(config.numberOfSearches)
+$(config.domElements.totSearchesMobileForm).val(config.numberOfSearchesMobile)
+$(config.domElements.waitingBetweenSearches).val(searches.milliseconds)
 
-setDefaultUI() 
+// Update the html with default numberOfSearches number 0/totSearches
+$(config.domElements.totSearchesNumber).html(config.numberOfSearches)
+$(config.domElements.totSearchesMobileNumber).html(config.numberOfSearchesMobile)
 
 // When change the value inside the input
-$(config.domElements.totDesktopSearchesForm).on('change', function () {
-    config.searches.deskop = $(config.domElements.totSearchesForm).val()
+$(config.domElements.totSearchesForm).on('change', function () {
+    config.numberOfSearches = $(config.domElements.totSearchesForm).val()
+    $(config.domElements.totSearchesNumber).html(config.numberOfSearches)
+
 })
 
-$(config.domElements.totMobileSearchesForm).on('change', function () {
-    config.searches.mobile = $(config.domElements.totMobileSearchesForm).val()
+$(config.domElements.totSearchesMobileForm).on('change', function () {
+    config.numberOfSearchesMobile = $(config.domElements.totSearchesMobileForm).val()
+    $(config.domElements.totSearchesMobileNumber).html(config.numberOfSearchesMobile)
+
 })
 
-$(config.domElements.waitingBetweenSearchesForm).on('change', function () {
-    searches.searches.milliseconds = $(config.domElements.waitingBetweenSearchesForm).val()
+$(config.domElements.waitingBetweenSearches).on('change', function () {
+    searches.milliseconds = $(config.domElements.waitingBetweenSearches).val()
 })
 
 // Start search desktop
@@ -141,8 +144,8 @@ function activateForms() {
  */
 function setProgress(value, type){
     if(type == 'desktop'){
-        progressBar.style.width = value + "%";
-        progressBar.innerText = value + "%";
+        progressDesktop.style.width = value + "%";
+        progressDesktop.innerText = value + "%";
     }
     
     if(type == 'mobile'){

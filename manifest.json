@@ -1,9 +1,9 @@
 {
-    "name": "Search Automator",
-    "version": "1.4.2",
-    "description": "Chrome and Edge extension to automate searches on the Bing search engine.",
+    "name": "Rewards Search Automator",
+    "version": "1.5.0",
+    "description": "With this extension, you can automate searches on the Bing search engine to earn points for Microsoft Rewards. This extension allows you to perform searches on both Desktop and Mobile devices. You can customize both the time intervals between each search and the number of searches you want to perform. It's completely free and without ads.",
     "manifest_version": 3,
-    "author": "Andrea Corriga",
+    "author": "Andrea Corriga - Strifelab",
     "action": {
         "default_popup": "index.html",
         "default_title": "Search Automator"
