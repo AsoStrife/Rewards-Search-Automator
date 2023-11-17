@@ -6,7 +6,10 @@ let config = {
         storeLink: "https://chrome.google.com/webstore/detail/bing-search-automator/ohjecpfbaodieoicfnpnigjbinkjgnkb",
         rewardsLink: "https://rewards.microsoft.com/",
     },
-    
+    bing: {
+        url: "https:www.bing.com/search?q={q}&form={form}",
+        form: "QBLH"
+    },
     phonesArray: [{
         title: "Google Nexus 4",
         width: 384,
@@ -19,7 +22,7 @@ let config = {
 
     searches: {
         milliseconds: 500,
-        deskop: 90,
+        desktop: 90,
         mobile: 60,
     }, 
     
@@ -34,7 +37,8 @@ let config = {
         authorWebsiteLink: "#authorWebsiteLink",
         repositoryGithubLink: "#repositoryGithubLink", 
         storeLink: "#storeLink", 
-        rewardsLink: "#rewardsLink"
+        rewardsLink: "#rewardsLink",
+        progressBar: ".progress-bar"
 
     }
 }

@@ -13,74 +13,73 @@
 </head>
 
 <body class="pt-25">
-    <div id="app">
-        <div class="container-fluid" style="text-align:center;">
-            <h1>Rewards Search Automator</h1>
-            
-            <p class="mt-15">
-                <button type="button" class="btn btn-primary mt-25" id="desktopButton">Desktop</button>
-                <button type="button" class="btn btn-primary mt-25" id="mobileButton">Mobile</button>
-            </p>
 
-            <div class="progress mt-25">
-                <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-mobile" role="progressbar"
-                    aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                </div>
-            </div>
+    <div class="container-fluid" style="text-align:center;">
+        <h1>Rewards Search Automator</h1>
+        
+        <p class="mt-15">
+            <button type="button" class="btn btn-primary mt-25" id="desktopButton">Desktop</button>
+            <button type="button" class="btn btn-primary mt-25" id="mobileButton">Mobile</button>
+        </p>
 
-        </div>
-
-        <div class="container mt-30">
-            <div class="row">
-                <div class="col">
-                    <label class="form-label">Desktop searches:</label>
-                    <input type="number" class="form-control form-control-sm " 
-                        id="totDesktopSearchesForm" min="1" value="">
-                </div>
-
-                <div class="col">
-                    <label class="form-label">Mobile searches:</label>
-                    <input type="number" class="form-control form-control-sm " id="totMobileSearchesForm" min="1" value="">
-                </div>
-            </div>
-
-            <div class="row mt-15">
-                <div class="col">
-                    <label class="form-label">Waiting between searches (MS):</label>
-                    <input type="number" class="form-control form-control-sm"
-                        id="waitingBetweenSearchesForm" min="100" value="">
-                </div>
+        <div class="progress mt-25">
+            <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-mobile" role="progressbar"
+                aria-valuemin="0" aria-valuemax="100" style="width: 0%">
             </div>
         </div>
 
-        <nav class="navbar navbar-expand navbar-dark bg-primary fixed-bottom">
-            <div class="container-fluid">
-                <span class="navbar-brand" id="appVersion"></span>
-            </div>
-            <div class="navbar-collapse collapse">
-
-                <ul class="navbar-nav ms-auto">
-                    <a class="nav-link waves-effect waves-light" href="" target="_blank"
-                        title="Author's Website" id="authorWebsiteLink">
-                        <i class="fa-solid fa-user-astronaut"></i>
-                    </a>
-                    <a class="nav-link waves-effect waves-light" href=""
-                        target="_blank" title="Source Code" id="repositoryGithubLink">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-
-                    <a class="nav-link waves-effect waves-light" href=""
-                        target="_blank" title="Chrome Store" id="storeLink">
-                        <i class="fa-brands fa-chrome"></i>
-                    </a>
-                    <a class="nav-link waves-effect waves-light" href="" 
-                        target="_blank" title="Microsoft Rewards" id="rewardsLink">
-                        <i class="fa-solid fa-medal"></i>
-                    </a>
-                </ul>
-            </div>
-        </nav>
     </div>
+
+    <div class="container mt-30">
+        <div class="row">
+            <div class="col">
+                <label class="form-label">Desktop searches:</label>
+                <input type="number" class="form-control form-control-sm " 
+                    id="totDesktopSearchesForm" min="1" value="">
+            </div>
+
+            <div class="col">
+                <label class="form-label">Mobile searches:</label>
+                <input type="number" class="form-control form-control-sm " id="totMobileSearchesForm" min="1" value="">
+            </div>
+        </div>
+
+        <div class="row mt-15">
+            <div class="col">
+                <label class="form-label">Waiting between searches (MS):</label>
+                <input type="number" class="form-control form-control-sm"
+                    id="waitingBetweenSearchesForm" min="100" value="">
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand navbar-dark bg-primary fixed-bottom">
+        <div class="container-fluid">
+            <span class="navbar-brand" id="appVersion"></span>
+        </div>
+        <div class="navbar-collapse collapse">
+
+            <ul class="navbar-nav ms-auto">
+                <a class="nav-link waves-effect waves-light" href="" target="_blank"
+                    title="Author's Website" id="authorWebsiteLink">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                </a>
+                <a class="nav-link waves-effect waves-light" href=""
+                    target="_blank" title="Source Code" id="repositoryGithubLink">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+
+                <a class="nav-link waves-effect waves-light" href=""
+                    target="_blank" title="Chrome Store" id="storeLink">
+                    <i class="fa-brands fa-chrome"></i>
+                </a>
+                <a class="nav-link waves-effect waves-light" href="" 
+                    target="_blank" title="Microsoft Rewards" id="rewardsLink">
+                    <i class="fa-solid fa-medal"></i>
+                </a>
+            </ul>
+        </div>
+    </nav>
 
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script src="./js/fa-all.min.js"></script>

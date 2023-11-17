@@ -1,7 +1,6 @@
 import words from '../data/words.js'
 import config from './config.js' 
 
-console.log(config)
 chrome.runtime.connect({ name: "popup" });
 
 var phones = {}
@@ -14,23 +13,14 @@ config.phonesArray.forEach(function(phone){
 const timer = ms => new Promise(res => setTimeout(res, ms))
 
 // Progressbar object
-var progressBar = document.querySelector(".progress-bar-desktop")
-
-function setDefaultUI() {
-    // Set the app version number 
-    $(config.domElements.appVersion).html(config.general.appVersion)
-
-    // Set numberOfSearches default values inside the input
-    $(config.domElements.totDesktopSearchesForm).val(config.searches.deskop)
-    $(config.domElements.totMobileSearchesForm).val(config.searches.mobile)
-    $(config.domElements.waitingBetweenSearchesForm).val(config.searches.milliseconds)
-}
+var progressBar = document.querySelector(config.domElements.progressBar)
+var tabId
 
 setDefaultUI() 
 
 // When change the value inside the input
 $(config.domElements.totDesktopSearchesForm).on('change', function () {
-    config.searches.deskop = $(config.domElements.totSearchesForm).val()
+    config.searches.desktop = $(config.domElements.totDesktopSearchesForm).val()
 })
 
 $(config.domElements.totMobileSearchesForm).on('change', function () {
@@ -42,15 +32,29 @@ $(config.domElements.waitingBetweenSearchesForm).on('change', function () {
 })
 
 // Start search desktop
-$(config.domElements.desktopButton).on("click", () => {
+$(config.domElements.desktopButton).on("click", async () => {
+    tabId = await getTabId()
+    disableDebugger()
+    
     doSearchesDesktop()
 })
 
 // Start search mobile
 $(config.domElements.mobileButton).on('click', async () => {
-    let tabId = await getTabId()
+    tabId = await getTabId()
+
     handleMobileMode(tabId)
 })
+
+function setDefaultUI() {
+    // Set the app version number 
+    $(config.domElements.appVersion).html(config.general.appVersion)
+
+    // Set numberOfSearches default values inside the input
+    $(config.domElements.totDesktopSearchesForm).val(config.searches.desktop)
+    $(config.domElements.totMobileSearchesForm).val(config.searches.mobile)
+    $(config.domElements.waitingBetweenSearchesForm).val(config.searches.milliseconds)
+}
 
 /**
  * Perform random searches on Bing
@@ -59,23 +63,22 @@ async function doSearchesDesktop() {
 
     deactivateForms()
 
-    for (var i = 0; i < config.numberOfSearches; i++) {
+    for (var i = 0; i < config.searches.desktop; i++) {
 
         let randomNumber = Math.floor(Math.random() * words.length)
 
         chrome.tabs.update({
-            url: `https:www.bing.com/search?q=${words[randomNumber]}`
+            url: config.bing.url.replace("{q}", words[randomNumber]).replace("{form}", config.bing.form)
         })
 
-        setProgress( parseInt( ( (i + 1) / config.numberOfSearches) * 100), 'desktop' )
+        setProgress( parseInt( ( (i + 1) / config.searches.desktop) * 100) )
         
-        $(config.domElements.currentSearchNumber).html(i + 1)
-        await timer(searches.milliseconds)
+        await timer(config.searches.milliseconds)
     }
 
     openAndreaCorriga()
     
-    setProgress(0, 'desktop')
+    setProgress(0)
     activateForms()
 } 
 
@@ -86,27 +89,26 @@ async function doSearchesMobile() {
 
     deactivateForms()
 
-    for (var i = 0; i < config.numberOfSearchesMobile; i++) {
+    for (var i = 0; i < config.searches.mobile; i++) {
 
         let randomNumber = Math.floor(Math.random() * words.length)
 
         chrome.tabs.update({
-            url: `https:www.bing.com/search?q=${words[randomNumber]}`
+            url: config.bing.url.replace("{q}", words[randomNumber]).replace("{form}", config.bing.form)
         })
 
-        setProgress( parseInt( ( (i + 1) / config.numberOfSearchesMobile) * 100), 'mobile' )
+        setProgress( parseInt( ( (i + 1) / config.searches.mobile) * 100) )
         
-        $(config.domElements.currentSearchMobileNumber).html(i + 1)
-        await timer(searches.milliseconds)
+        await timer(config.searches.milliseconds)
     }
 
-    setProgress(0, 'mobile')
+    setProgress(0)
     activateForms()
 } 
 
 function openAndreaCorriga() {
     chrome.tabs.update({
-        url: config.authorWebsiteLink
+        url: config.general.authorWebsiteLink
     })
 }
 
@@ -117,9 +119,9 @@ function openAndreaCorriga() {
 function deactivateForms() {
     $(config.domElements.desktopButton).prop("disabled", true)
     $(config.domElements.mobileButton).prop("disabled", true)
-    $(config.domElements.totSearchesForm).prop("disabled", true)
-    $(config.domElements.totSearchesMobileForm).prop("disabled", true)
-    $(config.domElements.waitingBetweenSearches).prop("disabled", true)
+    $(config.domElements.totDesktopSearchesForm).prop("disabled", true)
+    $(config.domElements.totMobileSearchesForm).prop("disabled", true)
+    $(config.domElements.waitingBetweenSearchesForm).prop("disabled", true)
 }
 
 /**
@@ -129,9 +131,9 @@ function deactivateForms() {
 function activateForms() {
     $(config.domElements.desktopButton).prop("disabled", false)
     $(config.domElements.mobileButton).prop("disabled", false)
-    $(config.domElements.totSearchesForm).prop("disabled", false)
-    $(config.domElements.totSearchesMobileForm).prop("disabled", false)
-    $(config.domElements.waitingBetweenSearches).prop("disabled", false)
+    $(config.domElements.totDesktopSearchesForm).prop("disabled", false)
+    $(config.domElements.totMobileSearchesForm).prop("disabled", false)
+    $(config.domElements.waitingBetweenSearchesForm).prop("disabled", false)
 
 }
 
@@ -139,16 +141,9 @@ function activateForms() {
  * Update progressbar value
  * @param {*} value 
  */
-function setProgress(value, type){
-    if(type == 'desktop'){
-        progressBar.style.width = value + "%";
-        progressBar.innerText = value + "%";
-    }
-    
-    if(type == 'mobile'){
-        progressMobile.style.width = value + "%";
-        progressMobile.innerText = value + "%";
-    }
+function setProgress(value){
+    progressBar.style.width = value + "%";
+    progressBar.innerText = value + "%";
 }
 
 async function getTabId() {
@@ -161,8 +156,8 @@ async function getTabId() {
     })
 }
 
-function handleMobileMode(tabId) {
-    enableDebugger(tabId)
+function handleMobileMode() {
+    enableDebugger()
 
     chrome.debugger.sendCommand({
         tabId: tabId
@@ -181,7 +176,7 @@ function handleMobileMode(tabId) {
         }, async function () {
             await doSearchesMobile()
 
-            disableDebugger(tabId)
+            disableDebugger()
 
             openAndreaCorriga()
         })
@@ -190,13 +185,13 @@ function handleMobileMode(tabId) {
 
 }
 
-function enableDebugger(tabId) {
+function enableDebugger() {
     chrome.debugger.attach({ tabId }, "1.2", function () {
         console.log(`Debugger enabled by tab: ${tabId}`);
     })
 }
 
-function disableDebugger(tabId) {
+function disableDebugger() {
     chrome.debugger.detach({ tabId }, function () {
         console.log(`Debugger disables by tab: ${tabId}`);
     })
