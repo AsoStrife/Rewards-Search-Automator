@@ -10,18 +10,30 @@ let config = {
         url: "https:www.bing.com/search?q={q}&form={form}",
         form: "QBLH"
     },
-    phonesArray: [{
-        title: "Google Nexus 4",
-        width: 384,
-        height: 640,
-        deviceScaleFactor: 2,
-        userAgent: "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19",
-        touch: true,
-        mobile: true
-    }],
+
+    devices: {
+        phone: {
+            title: "Google Nexus 4",
+            width: 384,
+            height: 640,
+            deviceScaleFactor: 2,
+            userAgent: "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19",
+            touch: true,
+            mobile: true
+        },
+        desktop: {
+            title: "Dell Xps 15",
+            width: 1920,
+            height: 1080,
+            deviceScaleFactor: 1,
+            userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            touch: false,
+            mobile: false
+        }
+    },
 
     searches: {
-        milliseconds: 500,
+        milliseconds: 800,
         desktop: 90,
         mobile: 60,
     }, 

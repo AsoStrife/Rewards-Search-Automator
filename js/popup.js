@@ -1,13 +1,7 @@
 import words from '../data/words.js'
 import config from './config.js' 
 
-chrome.runtime.connect({ name: "popup" });
-
-var phones = {}
-
-config.phonesArray.forEach(function(phone){
-    phones[phone.title.replace(/\s+/gi,'')] = phone;
-})
+chrome.runtime.connect({ name: "popup" })
 
 // Await time between searches
 const timer = ms => new Promise(res => setTimeout(res, ms))
@@ -28,14 +22,15 @@ $(config.domElements.totMobileSearchesForm).on('change', function () {
 })
 
 $(config.domElements.waitingBetweenSearchesForm).on('change', function () {
-    searches.searches.milliseconds = $(config.domElements.waitingBetweenSearchesForm).val()
+    config.searches.milliseconds = $(config.domElements.waitingBetweenSearchesForm).val()
 })
 
 // Start search desktop
 $(config.domElements.desktopButton).on("click", async () => {
     tabId = await getTabId()
-    disableDebugger()
     
+    await disableDebugger()
+
     doSearchesDesktop()
 })
 
@@ -43,7 +38,7 @@ $(config.domElements.desktopButton).on("click", async () => {
 $(config.domElements.mobileButton).on('click', async () => {
     tabId = await getTabId()
 
-    handleMobileMode(tabId)
+    await handleMobileMode(tabId)
 })
 
 function setDefaultUI() {
@@ -54,6 +49,12 @@ function setDefaultUI() {
     $(config.domElements.totDesktopSearchesForm).val(config.searches.desktop)
     $(config.domElements.totMobileSearchesForm).val(config.searches.mobile)
     $(config.domElements.waitingBetweenSearchesForm).val(config.searches.milliseconds)
+
+
+    $(config.domElements.authorWebsiteLink).attr('href', config.general.authorWebsiteLink)
+    $(config.domElements.repositoryGithubLink).attr('href', config.general.repositoryGithubLink)
+    $(config.domElements.storeLink).attr('href', config.general.storeLink)
+    $(config.domElements.rewardsLink).attr('href', config.general.rewardsLink)
 }
 
 /**
@@ -142,8 +143,8 @@ function activateForms() {
  * @param {*} value 
  */
 function setProgress(value){
-    progressBar.style.width = value + "%";
-    progressBar.innerText = value + "%";
+    progressBar.style.width = value + "%"
+    progressBar.innerText = value + "%"
 }
 
 async function getTabId() {
@@ -156,43 +157,69 @@ async function getTabId() {
     })
 }
 
-function handleMobileMode() {
-    enableDebugger()
-
-    chrome.debugger.sendCommand({
-        tabId: tabId
-    }, "Network.setUserAgentOverride", {
-        userAgent: phones.GoogleNexus4.userAgent
-    }, function () {
+async function handleMobileMode() {
+    await enableDebugger()
 
         chrome.debugger.sendCommand({
             tabId: tabId
-        }, "Page.setDeviceMetricsOverride", {
-            width: phones.GoogleNexus4.width,
-            height: phones.GoogleNexus4.height,
-            deviceScaleFactor: phones.GoogleNexus4.deviceScaleFactor,
-            mobile: phones.GoogleNexus4.mobile,
-            fitWindow: true
-        }, async function () {
-            await doSearchesMobile()
+        }, "Network.setUserAgentOverride", {
+            userAgent: config.devices.phone.userAgent
+        }, function () {
 
-            disableDebugger()
+            chrome.debugger.sendCommand({
+                tabId: tabId
+            }, "Page.setDeviceMetricsOverride", {
+                width: config.devices.phone.width,
+                height: config.devices.phone.height,
+                deviceScaleFactor: config.devices.phone.deviceScaleFactor,
+                mobile: config.devices.phone.mobile,
+                fitWindow: true
+            }, async function () {
 
-            openAndreaCorriga()
+                await doSearchesMobile()
+
+                // Back to normal
+                chrome.debugger.sendCommand({
+                    tabId: tabId
+                }, "Network.setUserAgentOverride", {
+                    userAgent: config.devices.desktop.userAgent
+                }, function () {
+            
+                    chrome.debugger.sendCommand({
+                        tabId: tabId
+                    }, "Page.setDeviceMetricsOverride", {
+                        width: config.devices.desktop.width,
+                        height: config.devices.desktop.height,
+                        deviceScaleFactor: config.devices.desktop.deviceScaleFactor,
+                        mobile: config.devices.desktop.mobile,
+                        fitWindow: true
+                    }, async function () {
+                        await disableDebugger()
+            
+                        openAndreaCorriga()
+                    })
+                })
+
+            })
+
         })
-
-    })
-
+    
 }
 
-function enableDebugger() {
-    chrome.debugger.attach({ tabId }, "1.2", function () {
-        console.log(`Debugger enabled by tab: ${tabId}`);
+async function enableDebugger() {
+    return new Promise( (resolve, reject) => {
+        chrome.debugger.attach({ tabId }, "1.2", function () {
+            console.log(`Debugger enabled by tab: ${tabId}`)
+            resolve(true)
+        })
     })
 }
 
-function disableDebugger() {
-    chrome.debugger.detach({ tabId }, function () {
-        console.log(`Debugger disables by tab: ${tabId}`);
+async function disableDebugger() {
+    return new Promise( (resolve, reject) => {
+        chrome.debugger.detach({ tabId }, function () {
+            console.log(`Debugger disables by tab: ${tabId}`)
+            resolve(true)
+        })
     })
 }
