@@ -15,54 +15,18 @@
 <body class="pt-25">
 
     <div class="container-fluid" style="text-align:center;">
-        <h1>Search Automator</h1>
+        <h1>Rewards Search Automator</h1>
 
-        <p> <span id="currentSearchNumber">0</span> / <span id="totSearchesNumber">0</span> Desktop Searches</p>
-        <div class="progress mb-25">
-            <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-desktop" role="progressbar"
-                aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-            </div>
-        </div>
+        <img src="./img/icon48.png" class="img-fluid" />
 
-        <p> <span id="currentSearchMobileNumber">0</span> / <span id="totSearchesMobileNumber">0</span> Mobile Searches
-        </p>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated progress-bar-mobile" role="progressbar"
-                aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-            </div>
-        </div>
-
-        <button type="button" class="btn btn-primary mt-25" id="desktopButton">Desktop</button>
-        <button type="button" class="btn btn-primary mt-25" id="mobileButton">Mobile</button>
-    </div>
-
-    <div class="container mt-30">
-        <div class="row">
-            <div class="col">
-                <label class="form-label">Number of searches:</label>
-                <input type="number" class="form-control form-control-sm " id="totSearchesForm"
-                    placeholder="Number of searches" min="1" value="">
-            </div>
-
-            <div class="col">
-                <label class="form-label">Number of mobile searches:</label>
-                <input type="number" class="form-control form-control-sm " id="totSearchesMobileForm"
-                    placeholder="Number of searches mobile" min="1" value="">
-            </div>
-        </div>
-
-        <div class="row mt-15">
-            <div class="col">
-                <label class="form-label">Waiting between searches (MS):</label>
-                <input type="number" class="form-control form-control-sm " id="waitingBetweenSearches"
-                    placeholder="Waiting between searches" min="100" value="">
-            </div>
-        </div>
+        <a class="btn btn-primary mt-25" href="https://chromewebstore.google.com/u/3/detail/paohfpjfibchbhbkdnlhjpfblafifehg/preview?hl=it">
+            <i class="fa-brands fa-chrome"></i> Download the new version from Chrome Store!
+        </a>
     </div>
 
     <nav class="navbar navbar-expand navbar-dark bg-primary fixed-bottom">
         <div class="container-fluid">
-            <span class="navbar-brand" id="appVersion"></span>
+            <span class="navbar-brand" id="appVersion">1.4.3</span>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -71,13 +35,13 @@
                     title="Author's Website">
                     <i class="fa-solid fa-user-astronaut"></i>
                 </a>
-                <a class="nav-link waves-effect waves-light" href="https://github.com/AsoStrife/Bing-Search-Automator"
+                <a class="nav-link waves-effect waves-light" href="https://github.com/asostrife/rewards-search-automator"
                     target="_blank" title="Source Code">
                     <i class="fa-brands fa-github"></i>
                 </a>
 
                 <a class="nav-link waves-effect waves-light"
-                    href="https://chrome.google.com/webstore/detail/bing-search-automator/ohjecpfbaodieoicfnpnigjbinkjgnkb"
+                    href="hhttps://chromewebstore.google.com/u/3/detail/paohfpjfibchbhbkdnlhjpfblafifehg/preview?hl=it"
                     target="_blank" title="Chrome Store">
                     <i class="fa-brands fa-chrome"></i>
                 </a>
@@ -91,7 +55,6 @@
 
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script src="./js/fa-all.min.js"></script>
-    <script type="module" src="./js/popup.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 {
     "name": "Search Automator",
-    "version": "1.4.2",
+    "version": "1.4.3",
     "description": "Chrome and Edge extension to automate searches on the Bing search engine.",
     "manifest_version": 3,
     "author": "Andrea Corriga",
