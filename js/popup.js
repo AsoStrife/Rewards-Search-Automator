@@ -12,7 +12,6 @@ var tabId
 
 setDefaultUI() 
 
-// When change the value inside the input
 $(config.domElements.totDesktopSearchesForm).on('change', function () {
     config.searches.desktop = $(config.domElements.totDesktopSearchesForm).val()
 })
@@ -29,18 +28,31 @@ $(config.domElements.waitingBetweenSearchesForm).on('change', function () {
 $(config.domElements.desktopButton).on("click", async () => {
     tabId = await getTabId()
     
-    await disableDebugger()
+    await doSearches(config.searches.desktop)
 
-    doSearchesDesktop()
+    openAuthorWebsite()
 })
 
 // Start search mobile
 $(config.domElements.mobileButton).on('click', async () => {
     tabId = await getTabId()
 
-    await handleMobileMode(tabId)
+    await enableDebugger()
+
+    await activeMobileAgent()
+
+    await doSearches(config.searches.mobile)
+    
+    await activeDesktopAgent()
+
+    await disableDebugger()
+
+    openAuthorWebsite()
 })
 
+/**
+ * Set links on bottom navbar and forms
+ */
 function setDefaultUI() {
     // Set the app version number 
     $(config.domElements.appVersion).html(config.general.appVersion)
@@ -60,11 +72,11 @@ function setDefaultUI() {
 /**
  * Perform random searches on Bing
  */
-async function doSearchesDesktop() {
+async function doSearches(numberOfSearches) {
 
     deactivateForms()
 
-    for (var i = 0; i < config.searches.desktop; i++) {
+    for (var i = 0; i < numberOfSearches; i++) {
 
         let randomNumber = Math.floor(Math.random() * words.length)
 
@@ -72,42 +84,20 @@ async function doSearchesDesktop() {
             url: config.bing.url.replace("{q}", words[randomNumber]).replace("{form}", config.bing.form)
         })
 
-        setProgress( parseInt( ( (i + 1) / config.searches.desktop) * 100) )
+        setProgress( parseInt( ( (i + 1) / numberOfSearches) * 100) )
         
         await timer(config.searches.milliseconds)
     }
-
-    openAndreaCorriga()
     
     setProgress(0)
+
     activateForms()
 } 
 
 /**
- * Perform random searches Mobile on Bing
+ * Update the current tab with the author website
  */
-async function doSearchesMobile() {
-
-    deactivateForms()
-
-    for (var i = 0; i < config.searches.mobile; i++) {
-
-        let randomNumber = Math.floor(Math.random() * words.length)
-
-        chrome.tabs.update({
-            url: config.bing.url.replace("{q}", words[randomNumber]).replace("{form}", config.bing.form)
-        })
-
-        setProgress( parseInt( ( (i + 1) / config.searches.mobile) * 100) )
-        
-        await timer(config.searches.milliseconds)
-    }
-
-    setProgress(0)
-    activateForms()
-} 
-
-function openAndreaCorriga() {
+function openAuthorWebsite() {
     chrome.tabs.update({
         url: config.general.authorWebsiteLink
     })
@@ -147,6 +137,11 @@ function setProgress(value){
     progressBar.innerText = value + "%"
 }
 
+/**
+ * 
+ * @returns current tabs id
+ * 
+ */
 async function getTabId() {
     return new Promise( (resolve, reject) => {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -157,9 +152,35 @@ async function getTabId() {
     })
 }
 
-async function handleMobileMode() {
-    await enableDebugger()
+/** 
+ * Enable the debugger
+ */
+async function enableDebugger() {
+    return new Promise( (resolve, reject) => {
+        chrome.debugger.attach({ tabId }, "1.2", function () {
+            console.log(`Debugger enabled by tab: ${tabId}`)
+            resolve(true)
+        })
+    })
+}
 
+/** 
+ * Diseble the debugger
+ */
+async function disableDebugger() {
+    return new Promise( (resolve, reject) => {
+        chrome.debugger.detach({ tabId }, function () {
+            console.log(`Debugger disables by tab: ${tabId}`)
+            resolve(true)
+        })
+    })
+}
+
+/**
+ * Override the user agent for mobile searches
+ */
+async function activeMobileAgent() {
+    return new Promise( (resolve, reject) => {
         chrome.debugger.sendCommand({
             tabId: tabId
         }, "Network.setUserAgentOverride", {
@@ -174,52 +195,34 @@ async function handleMobileMode() {
                 deviceScaleFactor: config.devices.phone.deviceScaleFactor,
                 mobile: config.devices.phone.mobile,
                 fitWindow: true
-            }, async function () {
-
-                await doSearchesMobile()
-
-                // Back to normal
-                chrome.debugger.sendCommand({
-                    tabId: tabId
-                }, "Network.setUserAgentOverride", {
-                    userAgent: config.devices.desktop.userAgent
-                }, function () {
-            
-                    chrome.debugger.sendCommand({
-                        tabId: tabId
-                    }, "Page.setDeviceMetricsOverride", {
-                        width: config.devices.desktop.width,
-                        height: config.devices.desktop.height,
-                        deviceScaleFactor: config.devices.desktop.deviceScaleFactor,
-                        mobile: config.devices.desktop.mobile,
-                        fitWindow: true
-                    }, async function () {
-                        await disableDebugger()
-            
-                        openAndreaCorriga()
-                    })
-                })
-
+            }, function () {
+                resolve(true)
             })
-
-        })
-    
-}
-
-async function enableDebugger() {
-    return new Promise( (resolve, reject) => {
-        chrome.debugger.attach({ tabId }, "1.2", function () {
-            console.log(`Debugger enabled by tab: ${tabId}`)
-            resolve(true)
         })
     })
 }
 
-async function disableDebugger() {
-    return new Promise( (resolve, reject) => {
-        chrome.debugger.detach({ tabId }, function () {
-            console.log(`Debugger disables by tab: ${tabId}`)
-            resolve(true)
+/**
+ * Override the user agent for desktop searches
+ */
+async function activeDesktopAgent() {
+    return new Promise((resolve, reject) => {
+        chrome.debugger.sendCommand({
+            tabId: tabId
+        }, "Network.setUserAgentOverride", {
+            userAgent: config.devices.desktop.userAgent
+        }, function () {
+            chrome.debugger.sendCommand({
+                tabId: tabId
+            }, "Page.setDeviceMetricsOverride", {
+                width: config.devices.desktop.width,
+                height: config.devices.desktop.height,
+                deviceScaleFactor: config.devices.desktop.deviceScaleFactor,
+                mobile: config.devices.desktop.mobile,
+                fitWindow: true
+            }, function () {
+                resolve(true)
+            })
         })
     })
 }
