@@ -1,10 +1,14 @@
 # Rewards Search Automator
-![](https://github.com/AsoStrife/Rewards-Search-Automator/blob/00aa9c79a7aa91b48855928f5123c23a8d7b12fa/img/icon128.png?raw=true)
+![](https://github.com/AsoStrife/Rewards-Search-Automator/blob/47d130ff07c6fe779984987cdcdbe747fd244ac9/img/icon128.png)
 
-Chrome / Edge extension for **Automatic Rewards Bing Search**. 
+With this extension, you can automate searches on the **Bing** search engine to earn points for **Microsoft Rewards**.
 
-This extension automatically performs 60 search on Bing with a 500ms delay between each search.
+This extension allows you to perform searches on both **Desktop** and **Mobile** devices.
 
-You can install it from the store: [Rewards Search Automator - Chrome Web Store](https://chrome.google.com/webstore/detail/search-automator/ohjecpfbaodieoicfnpnigjbinkjgnkb) or you can deploy the `.zip` package directly in your browser using Developer Mode. 
+You can customize both the time intervals between each search and the number of searches you want to perform.
 
-![](https://github.com/AsoStrife/Rewards-Search-Automator/blob/main/img/preview.png?raw=true)
+It's completely free and without ads.
+
+You can install it from the store: [Rewards Search Automator - Chrome Web Store](https://chromewebstore.google.com/u/3/detail/paohfpjfibchbhbkdnlhjpfblafifehg/preview?hl=it) or you can deploy the `.zip` package directly in your browser using Developer Mode. 
+
+![](https://raw.githubusercontent.com/AsoStrife/Rewards-Search-Automator/47d130ff07c6fe779984987cdcdbe747fd244ac9/img/preview-big.png)
