@@ -1,6 +1,6 @@
 # Rewards Search Automator
 <p align="center">
-<img  src="https://raw.githubusercontent.com/AsoStrife/Rewards-Search-Automator/47d130ff07c6fe779984987cdcdbe747fd244ac9/img/icon128.pngg">
+<img  src="https://raw.githubusercontent.com/AsoStrife/Rewards-Search-Automator/47d130ff07c6fe779984987cdcdbe747fd244ac9/img/icon128.png">
 </p>
 
 
