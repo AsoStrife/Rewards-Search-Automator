@@ -1,13 +1,13 @@
 let config = {
     general: {
-        appVersion: "v1.5.0",
+        appVersion: "v1.5.1",
         authorWebsiteLink: "https://andreacorriga.com",
         repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator", 
         storeLink: "https://chromewebstore.google.com/u/3/detail/paohfpjfibchbhbkdnlhjpfblafifehg/preview?hl=it",
         rewardsLink: "https://rewards.microsoft.com/",
     },
     bing: {
-        url: "https:www.bing.com/search?q={q}&form={form}",
+        url: "https:www.bing.com/search?q={q}&form={form}&cvid={cvid}",
         form: "QBLH"
     },
 
@@ -33,9 +33,10 @@ let config = {
     },
 
     searches: {
-        milliseconds: 800,
-        desktop: 90,
-        mobile: 60,
+        millisecondsMin: 8000,
+        millisecondsMax: 10000,
+        desktop: 30,
+        mobile: 20,
     }, 
     
 
@@ -44,7 +45,8 @@ let config = {
         mobileButton: '#mobileButton',
         totDesktopSearchesForm: '#totDesktopSearchesForm',
         totMobileSearchesForm: '#totMobileSearchesForm',
-        waitingBetweenSearchesForm: '#waitingBetweenSearchesForm',
+        waitingBetweenSearchesFormMin: '#waitingBetweenSearchesFormMin',
+        waitingBetweenSearchesFormMax: '#waitingBetweenSearchesFormMax',
         appVersion: "#appVersion",
         authorWebsiteLink: "#authorWebsiteLink",
         repositoryGithubLink: "#repositoryGithubLink", 

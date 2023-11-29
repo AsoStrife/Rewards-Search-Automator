@@ -45,11 +45,18 @@
         </div>
 
         <div class="row mt-15">
-            <div class="col">
-                <label class="form-label">Waiting between searches (MS):</label>
+            <div class="col-6">
+                <label class="form-label">Min Search Waiting (MS):</label>
                 <input type="number" class="form-control form-control-sm"
-                    id="waitingBetweenSearchesForm" min="100" value="">
+                    id="waitingBetweenSearchesFormMin" min="100" value="">
             </div>
+
+            <div class="col-6">
+                <label class="form-label">Max Search Waiting (MS):</label>
+                <input type="number" class="form-control form-control-sm"
+                    id="waitingBetweenSearchesFormMax" min="100" value="">
+            </div>
+
         </div>
     </div>
 

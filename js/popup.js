@@ -3,8 +3,10 @@ import config from './config.js'
 
 chrome.runtime.connect({ name: "popup" })
 
+const randomDelay = () => Math.floor(Math.random() * (config.searches.millisecondsMin - config.searches.millisecondsMax + 1) + config.searches.millisecondsMin);
+
 // Await time between searches
-const timer = ms => new Promise(res => setTimeout(res, ms))
+const timer = ms => new Promise(res => setTimeout(res, randomDelay()))
 
 // Progressbar object
 var progressBar = document.querySelector(config.domElements.progressBar)
@@ -60,7 +62,8 @@ function setDefaultUI() {
     // Set numberOfSearches default values inside the input
     $(config.domElements.totDesktopSearchesForm).val(config.searches.desktop)
     $(config.domElements.totMobileSearchesForm).val(config.searches.mobile)
-    $(config.domElements.waitingBetweenSearchesForm).val(config.searches.milliseconds)
+    $(config.domElements.waitingBetweenSearchesFormMin).val(config.searches.millisecondsMin)
+    $(config.domElements.waitingBetweenSearchesFormMax).val(config.searches.millisecondsMax)
 
 
     $(config.domElements.authorWebsiteLink).attr('href', config.general.authorWebsiteLink)
@@ -77,16 +80,19 @@ async function doSearches(numberOfSearches) {
     deactivateForms()
 
     for (var i = 0; i < numberOfSearches; i++) {
+        
+        const searchUrl = config.bing.url
+                                    .replace("{q}", getRandomSearchWord())
+                                    .replace("{form}", generateRandomString(4))
+                                    .replace("{cvid}", generateRandomString(32))
+        
+        console.log("Open new search at:", searchUrl)
 
-        let randomNumber = Math.floor(Math.random() * words.length)
-
-        chrome.tabs.update({
-            url: config.bing.url.replace("{q}", words[randomNumber]).replace("{form}", config.bing.form)
-        })
-
+        chrome.tabs.update({ url: searchUrl })
+        // chrome.tabs.create({ url: searchUrl })
         setProgress( parseInt( ( (i + 1) / numberOfSearches) * 100) )
         
-        await timer(config.searches.milliseconds)
+        await timer()
     }
     
     setProgress(0)
@@ -225,4 +231,26 @@ async function activeDesktopAgent() {
             })
         })
     })
+}
+
+/**
+ * Generate random string with length parameter
+ */
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length)
+        result += characters.charAt(randomIndex)
+    }
+
+    return result
+}
+
+/**
+ * Get a random word/phrase from dictionary 
+ */
+function getRandomSearchWord() {        
+    return words[Math.floor(Math.random() * words.length)]
 }
