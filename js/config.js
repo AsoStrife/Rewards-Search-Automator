@@ -1,9 +1,9 @@
 let config = {
     general: {
-        appVersion: "v1.5.1",
+        appVersion: "v1.5.2",
         authorWebsiteLink: "https://andreacorriga.com",
-        repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator", 
-        storeLink: "https://chromewebstore.google.com/u/3/detail/paohfpjfibchbhbkdnlhjpfblafifehg/preview?hl=it",
+        repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator",
+        storeLink: "https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg?hl=it",
         rewardsLink: "https://rewards.microsoft.com/",
     },
     bing: {
