@@ -1,13 +1,13 @@
 let config = {
     general: {
-        appVersion: "v1.5.3",
+        appVersion: "v1.5.4",
         authorWebsiteLink: "https://andreacorriga.com",
         repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator",
         storeLink: "https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg?hl=it",
         rewardsLink: "https://rewards.microsoft.com/",
     },
     bing: {
-        url: "https:www.bing.com/search?q={q}&form={form}&cvid={cvid}",
+        url: "https://bing.com/search?q={q}&form={form}&cvid={cvid}",
         form: "QBLH"
     },
 

@@ -92,7 +92,7 @@ async function doSearches(numberOfSearches) {
         console.log("Open new search at:", searchUrl)
 
         chrome.tabs.update({ url: searchUrl })
-        // chrome.tabs.create({ url: searchUrl })
+        
         setProgress( parseInt( ( (i + 1) / numberOfSearches) * 100) )
         
         await timer()
@@ -240,8 +240,8 @@ async function activeDesktopAgent() {
  * Generate random string with length parameter
  */
 function generateRandomString(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    let result = ''
 
     for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length)
