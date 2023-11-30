@@ -1,6 +1,6 @@
 let config = {
     general: {
-        appVersion: "v1.5.2",
+        appVersion: "v1.5.3",
         authorWebsiteLink: "https://andreacorriga.com",
         repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator",
         storeLink: "https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg?hl=it",

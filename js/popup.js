@@ -3,7 +3,7 @@ import config from './config.js'
 
 chrome.runtime.connect({ name: "popup" })
 
-const randomDelay = () => Math.floor(Math.random() * (config.searches.millisecondsMin - config.searches.millisecondsMax + 1) + config.searches.millisecondsMin);
+const randomDelay = () => Math.floor(Math.random() * (parseInt(config.searches.millisecondsMin) - parseInt(config.searches.millisecondsMax) + 1) + parseInt(config.searches.millisecondsMin))
 
 // Await time between searches
 const timer = ms => new Promise(res => setTimeout(res, randomDelay()))
@@ -22,8 +22,12 @@ $(config.domElements.totMobileSearchesForm).on('change', function () {
     config.searches.mobile = $(config.domElements.totMobileSearchesForm).val()
 })
 
-$(config.domElements.waitingBetweenSearchesForm).on('change', function () {
-    config.searches.milliseconds = $(config.domElements.waitingBetweenSearchesForm).val()
+$(config.domElements.waitingBetweenSearchesFormMin).on('change', function () {
+    config.searches.millisecondsMin = $(config.domElements.waitingBetweenSearchesFormMin).val()
+})
+
+$(config.domElements.waitingBetweenSearchesFormMax).on('change', function () {
+    config.searches.millisecondsMax = $(config.domElements.waitingBetweenSearchesFormMax).val()
 })
 
 // Start search desktop
@@ -76,7 +80,6 @@ function setDefaultUI() {
  * Perform random searches on Bing
  */
 async function doSearches(numberOfSearches) {
-
     deactivateForms()
 
     for (var i = 0; i < numberOfSearches; i++) {
