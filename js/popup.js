@@ -56,6 +56,25 @@ $(config.domElements.mobileButton).on('click', async () => {
     openAuthorWebsite()
 })
 
+// Start search desktop&mobile
+$(config.domElements.desktopMobileButton).on('click', async () => {
+    tabId = await getTabId()
+    
+    await doSearches(config.searches.desktop)
+    
+    await enableDebugger()
+
+    await activeMobileAgent()
+
+    await doSearches(config.searches.mobile)
+    
+    await activeDesktopAgent()
+
+    await disableDebugger()
+
+    openAuthorWebsite()
+})
+
 /**
  * Set links on bottom navbar and forms
  */
@@ -86,8 +105,8 @@ async function doSearches(numberOfSearches) {
         
         const searchUrl = config.bing.url
                                     .replace("{q}", getRandomSearchWord())
-                                    .replace("{form}", generateRandomString(4))
-                                    .replace("{cvid}", generateRandomString(32))
+                                    .replace("{form}", config.bing.form)
+                                    // .replace("{cvid}", generateRandomString(32))
         
         console.log("Open new search at:", searchUrl)
 
@@ -119,9 +138,11 @@ function openAuthorWebsite() {
 function deactivateForms() {
     $(config.domElements.desktopButton).prop("disabled", true)
     $(config.domElements.mobileButton).prop("disabled", true)
+    $(config.domElements.desktopMobileButton).prop("disabled", true)
     $(config.domElements.totDesktopSearchesForm).prop("disabled", true)
     $(config.domElements.totMobileSearchesForm).prop("disabled", true)
-    $(config.domElements.waitingBetweenSearchesForm).prop("disabled", true)
+    $(config.domElements.waitingBetweenSearchesFormMin).prop("disabled", true)
+    $(config.domElements.waitingBetweenSearchesFormMax).prop("disabled", true)
 }
 
 /**
@@ -131,9 +152,11 @@ function deactivateForms() {
 function activateForms() {
     $(config.domElements.desktopButton).prop("disabled", false)
     $(config.domElements.mobileButton).prop("disabled", false)
+    $(config.domElements.desktopMobileButton).prop("disabled", false)
     $(config.domElements.totDesktopSearchesForm).prop("disabled", false)
     $(config.domElements.totMobileSearchesForm).prop("disabled", false)
-    $(config.domElements.waitingBetweenSearchesForm).prop("disabled", false)
+    $(config.domElements.waitingBetweenSearchesFormMin).prop("disabled", false)
+    $(config.domElements.waitingBetweenSearchesFormMax).prop("disabled", false)
 
 }
 
