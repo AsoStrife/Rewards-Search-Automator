@@ -1,7 +1,8 @@
 let config = {
     general: {
-        appVersion: "v1.5.5",
+        appVersion: "v1.6.0",
         authorWebsiteLink: "https://andreacorriga.com",
+        authorWebsiteLinkThanks: "https://andreacorriga.com/rewards-search-automator/thanks",
         repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator",
         storeLink: "https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg?hl=it",
         rewardsLink: "https://rewards.microsoft.com/",
@@ -35,8 +36,8 @@ let config = {
     searches: {
         millisecondsMin: 8000,
         millisecondsMax: 10000,
-        desktop: 30,
-        mobile: 20
+        desktop: 3,
+        mobile: 3
     }, 
     
 

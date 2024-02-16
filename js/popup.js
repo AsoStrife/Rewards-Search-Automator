@@ -89,7 +89,7 @@ function setDefaultUI() {
     $(config.domElements.waitingBetweenSearchesFormMax).val(config.searches.millisecondsMax)
 
 
-    $(config.domElements.authorWebsiteLink).attr('href', config.general.authorWebsiteLink)
+    $(config.domElements.authorWebsiteLink).attr('href', config.general.authorWebsiteLinkThanks)
     $(config.domElements.repositoryGithubLink).attr('href', config.general.repositoryGithubLink)
     $(config.domElements.storeLink).attr('href', config.general.storeLink)
     $(config.domElements.rewardsLink).attr('href', config.general.rewardsLink)
@@ -127,7 +127,7 @@ async function doSearches(numberOfSearches) {
  */
 function openAuthorWebsite() {
     chrome.tabs.update({
-        url: config.general.authorWebsiteLink
+        url: config.general.authorWebsiteLinkThanks
     })
 }
 
