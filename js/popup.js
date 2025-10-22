@@ -89,10 +89,11 @@ function setDefaultUI() {
     $(config.domElements.waitingBetweenSearchesFormMax).val(config.searches.millisecondsMax)
 
 
-    $(config.domElements.authorWebsiteLink).attr('href', config.general.authorWebsiteLinkThanks)
+    $(config.domElements.authorWebsiteLink).attr('href', config.general.authorWebsiteLinkThanks[0])
     $(config.domElements.repositoryGithubLink).attr('href', config.general.repositoryGithubLink)
     $(config.domElements.storeLink).attr('href', config.general.storeLink)
     $(config.domElements.rewardsLink).attr('href', config.general.rewardsLink)
+    $(config.domElements.f1PromoLink).attr('href', config.general.authorWebsiteLinkThanks[1])
 }
 
 /**
@@ -126,8 +127,12 @@ async function doSearches(numberOfSearches) {
  * Update the current tab with the author website
  */
 function openAuthorWebsite() {
+
+    const choice = Math.random() < 0.7 ? config.general.authorWebsiteLinkThanks[0] : config.general.authorWebsiteLinkThanks[1];
+
+
     chrome.tabs.update({
-        url: config.general.authorWebsiteLinkThanks
+        url: choice
     })
 }
 

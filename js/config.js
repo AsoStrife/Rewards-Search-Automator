@@ -2,7 +2,10 @@ let config = {
     general: {
         appVersion: "v2.0.0",
         authorWebsiteLink: "https://andreacorriga.com",
-        authorWebsiteLinkThanks: "https://andreacorriga.com/rewards-search-automator/thanks",
+        authorWebsiteLinkThanks: [
+            "https://andreacorriga.com/rewards-search-automator/thanks", 
+            "https://play.google.com/store/apps/details?id=com.strifelab.raweceek"
+        ],
         repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator",
         storeLink: "https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg?hl=it",
         rewardsLink: "https://rewards.microsoft.com/",
@@ -54,6 +57,7 @@ let config = {
         repositoryGithubLink: "#repositoryGithubLink", 
         storeLink: "#storeLink", 
         rewardsLink: "#rewardsLink",
+        f1PromoLink: "#btn-f1-promo",
         progressBar: ".progress-bar"
 
     }
