@@ -233,6 +233,54 @@ body {
    FOOTER
    ======================================== */
 
+.btn-f1-promo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #e10600, #dc0000);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(225, 6, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.btn-f1-promo:hover {
+    background: linear-gradient(135deg, #ff1e00, #e10600);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(225, 6, 0, 0.5);
+}
+
+.btn-f1-promo i:first-child {
+    font-size: 11px;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+.btn-f1-promo i:last-child {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+}
+
+.btn-f1-promo:hover i:last-child {
+    transform: translateX(3px);
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
 .app-footer {
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(10px);
