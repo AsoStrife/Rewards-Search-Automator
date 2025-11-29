@@ -1,9 +1,9 @@
 let config = {
     general: {
-        appVersion: "v2.0.0",
+        appVersion: "v2.1.0",
         authorWebsiteLink: "https://andreacorriga.com",
         authorWebsiteLinkThanks: [
-            "https://andreacorriga.com/rewards-search-automator/thanks", 
+            "https://andreacorriga.com/rewards-search-automator/thanks",
             "https://play.google.com/store/apps/details?id=com.strifelab.raweceek"
         ],
         repositoryGithubLink: "https://github.com/AsoStrife/Rewards-Search-Automator",
@@ -17,11 +17,11 @@ let config = {
 
     devices: {
         phone: {
-            title: "Google Nexus 4",
-            width: 384,
-            height: 640,
-            deviceScaleFactor: 2,
-            userAgent: "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19",
+            title: "Samsung Galaxy S21",
+            width: 360,
+            height: 800,
+            deviceScaleFactor: 3,
+            userAgent: "Mozilla/5.0 (Linux; Android 13; SM-S908B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
             touch: true,
             mobile: true
         },
@@ -30,7 +30,7 @@ let config = {
             width: 1920,
             height: 1080,
             deviceScaleFactor: 1,
-            userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
             touch: false,
             mobile: false
         }
@@ -41,8 +41,8 @@ let config = {
         millisecondsMax: 10000,
         desktop: 3,
         mobile: 3
-    }, 
-    
+    },
+
 
     domElements: {
         desktopButton: '#desktopButton',
@@ -54,8 +54,8 @@ let config = {
         waitingBetweenSearchesFormMax: '#waitingBetweenSearchesFormMax',
         appVersion: "#appVersion",
         authorWebsiteLink: "#authorWebsiteLink",
-        repositoryGithubLink: "#repositoryGithubLink", 
-        storeLink: "#storeLink", 
+        repositoryGithubLink: "#repositoryGithubLink",
+        storeLink: "#storeLink",
         rewardsLink: "#rewardsLink",
         f1PromoLink: "#btn-f1-promo",
         progressBar: ".progress-bar"

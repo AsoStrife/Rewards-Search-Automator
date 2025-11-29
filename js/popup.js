@@ -1,18 +1,38 @@
-import words from '../data/words.js'
-import config from './config.js' 
+import config from './config.js'
 
 chrome.runtime.connect({ name: "popup" })
 
-const randomDelay = () => Math.floor(Math.random() * (parseInt(config.searches.millisecondsMin) - parseInt(config.searches.millisecondsMax) + 1) + parseInt(config.searches.millisecondsMin))
-
-// Await time between searches
-const timer = ms => new Promise(res => setTimeout(res, randomDelay()))
-
 // Progressbar object
 var progressBar = document.querySelector(config.domElements.progressBar)
-var tabId
 
-setDefaultUI() 
+setDefaultUI()
+checkRunningState()
+
+// Listen for messages from background script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'progress') {
+        setProgress(message.progress);
+    } else if (message.type === 'phaseChange') {
+        console.log(`Phase changed to: ${message.phase}`);
+    } else if (message.type === 'complete') {
+        setProgress(0);
+        activateForms();
+    } else if (message.type === 'stopped') {
+        setProgress(0);
+        activateForms();
+    }
+});
+
+// Check if searches are already running when popup opens
+async function checkRunningState() {
+    chrome.runtime.sendMessage({ type: 'getState' }, (response) => {
+        if (response && response.isRunning) {
+            deactivateForms();
+            const progress = parseInt((response.currentSearch / response.totalSearches) * 100);
+            setProgress(progress);
+        }
+    });
+}
 
 $(config.domElements.totDesktopSearchesForm).on('change', function () {
     config.searches.desktop = $(config.domElements.totDesktopSearchesForm).val()
@@ -32,48 +52,43 @@ $(config.domElements.waitingBetweenSearchesFormMax).on('change', function () {
 
 // Start search desktop
 $(config.domElements.desktopButton).on("click", async () => {
-    tabId = await getTabId()
-    
-    await doSearches(config.searches.desktop)
-
-    openAuthorWebsite()
+    startSearches('desktop');
 })
 
 // Start search mobile
 $(config.domElements.mobileButton).on('click', async () => {
-    tabId = await getTabId()
-
-    await enableDebugger()
-
-    await activeMobileAgent()
-
-    await doSearches(config.searches.mobile)
-    
-    await activeDesktopAgent()
-
-    await disableDebugger()
-
-    openAuthorWebsite()
+    startSearches('mobile');
 })
 
 // Start search desktop&mobile
 $(config.domElements.desktopMobileButton).on('click', async () => {
-    tabId = await getTabId()
-    
-    await doSearches(config.searches.desktop)
-    
-    await enableDebugger()
-
-    await activeMobileAgent()
-
-    await doSearches(config.searches.mobile)
-    
-    await activeDesktopAgent()
-
-    await disableDebugger()
-
-    openAuthorWebsite()
+    startSearches('desktopMobile');
 })
+
+/**
+ * Start searches via background script
+ */
+async function startSearches(searchType) {
+    deactivateForms();
+
+    const settings = {
+        desktopSearches: parseInt(config.searches.desktop),
+        mobileSearches: parseInt(config.searches.mobile),
+        millisecondsMin: parseInt(config.searches.millisecondsMin),
+        millisecondsMax: parseInt(config.searches.millisecondsMax)
+    };
+
+    chrome.runtime.sendMessage({
+        type: 'startSearches',
+        searchType: searchType,
+        settings: settings
+    }, (response) => {
+        if (!response || !response.success) {
+            console.error('Failed to start searches:', response?.error);
+            activateForms();
+        }
+    });
+}
 
 /**
  * Set links on bottom navbar and forms
@@ -94,46 +109,6 @@ function setDefaultUI() {
     $(config.domElements.storeLink).attr('href', config.general.storeLink)
     $(config.domElements.rewardsLink).attr('href', config.general.rewardsLink)
     $(config.domElements.f1PromoLink).attr('href', config.general.authorWebsiteLinkThanks[1])
-}
-
-/**
- * Perform random searches on Bing
- */
-async function doSearches(numberOfSearches) {
-    deactivateForms()
-
-    for (var i = 0; i < numberOfSearches; i++) {
-        
-        const searchUrl = config.bing.url
-                                    .replace("{q}", getRandomSearchWord())
-                                    .replace("{form}", config.bing.form)
-                                    // .replace("{cvid}", generateRandomString(32))
-        
-        console.log("Open new search at:", searchUrl)
-
-        chrome.tabs.update({ url: searchUrl })
-        
-        setProgress( parseInt( ( (i + 1) / numberOfSearches) * 100) )
-        
-        await timer()
-    }
-    
-    setProgress(0)
-
-    activateForms()
-} 
-
-/**
- * Update the current tab with the author website
- */
-function openAuthorWebsite() {
-
-    const choice = Math.random() < 0.7 ? config.general.authorWebsiteLinkThanks[0] : config.general.authorWebsiteLinkThanks[1];
-
-
-    chrome.tabs.update({
-        url: choice
-    })
 }
 
 /**
@@ -169,119 +144,7 @@ function activateForms() {
  * Update progressbar value
  * @param {*} value 
  */
-function setProgress(value){
+function setProgress(value) {
     progressBar.style.width = value + "%"
     progressBar.innerText = value + "%"
-}
-
-/**
- * 
- * @returns current tabs id
- * 
- */
-async function getTabId() {
-    return new Promise( (resolve, reject) => {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            var activeTab = tabs[0]
-            var activeTabId = activeTab.id
-            resolve(activeTabId)
-        })
-    })
-}
-
-/** 
- * Enable the debugger
- */
-async function enableDebugger() {
-    return new Promise( (resolve, reject) => {
-        chrome.debugger.attach({ tabId }, "1.2", function () {
-            console.log(`Debugger enabled by tab: ${tabId}`)
-            resolve(true)
-        })
-    })
-}
-
-/** 
- * Diseble the debugger
- */
-async function disableDebugger() {
-    return new Promise( (resolve, reject) => {
-        chrome.debugger.detach({ tabId }, function () {
-            console.log(`Debugger disables by tab: ${tabId}`)
-            resolve(true)
-        })
-    })
-}
-
-/**
- * Override the user agent for mobile searches
- */
-async function activeMobileAgent() {
-    return new Promise( (resolve, reject) => {
-        chrome.debugger.sendCommand({
-            tabId: tabId
-        }, "Network.setUserAgentOverride", {
-            userAgent: config.devices.phone.userAgent
-        }, function () {
-
-            chrome.debugger.sendCommand({
-                tabId: tabId
-            }, "Page.setDeviceMetricsOverride", {
-                width: config.devices.phone.width,
-                height: config.devices.phone.height,
-                deviceScaleFactor: config.devices.phone.deviceScaleFactor,
-                mobile: config.devices.phone.mobile,
-                fitWindow: true
-            }, function () {
-                resolve(true)
-            })
-        })
-    })
-}
-
-/**
- * Override the user agent for desktop searches
- */
-async function activeDesktopAgent() {
-    return new Promise((resolve, reject) => {
-        chrome.debugger.sendCommand({
-            tabId: tabId
-        }, "Network.setUserAgentOverride", {
-            userAgent: config.devices.desktop.userAgent
-        }, function () {
-            chrome.debugger.sendCommand({
-                tabId: tabId
-            }, "Page.setDeviceMetricsOverride", {
-                width: config.devices.desktop.width,
-                height: config.devices.desktop.height,
-                deviceScaleFactor: config.devices.desktop.deviceScaleFactor,
-                mobile: config.devices.desktop.mobile,
-                fitWindow: true
-            }, function () {
-                resolve(true)
-            })
-        })
-    })
-}
-
-/**
- * Generate random string with length parameter
- */
-function generateRandomString(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    let result = ''
-
-    for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length)
-        result += characters.charAt(randomIndex)
-    }
-
-    return result
-}
-
-/**
- * Get a random word/phrase from dictionary 
- */
-function getRandomSearchWord() {        
-    return words[Math.floor(Math.random() * words.length)]
 }
