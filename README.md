@@ -6,7 +6,7 @@
 
 ### Automate your Bing searches to earn Microsoft Rewards points effortlessly!
 
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?style=for-the-badge&logo=googlechrome)](https://chromewebstore.google.com/u/3/detail/paohfpjfibchbhbkdnlhjpfblafifehg/preview?hl=it)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-blue?style=for-the-badge&logo=googlechrome)](https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg)
 [![Version](https://img.shields.io/badge/version-2.0.0-green?style=for-the-badge)](https://github.com/AsoStrife/Rewards-Search-Automator/releases)
 [![License](https://img.shields.io/badge/license-MIT-orange?style=for-the-badge)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/AsoStrife/Rewards-Search-Automator?style=for-the-badge&logo=github)](https://github.com/AsoStrife/Rewards-Search-Automator/stargazers)
@@ -58,7 +58,7 @@
 ## 📦 Installation
 
 ### Option 1: Chrome Web Store (Recommended)
-1. Visit the [Chrome Web Store listing](https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg?hl=it)
+1. Visit the [Chrome Web Store listing](https://chromewebstore.google.com/detail/rewards-search-automator/paohfpjfibchbhbkdnlhjpfblafifehg)
 2. Click **"Add to Chrome"**
 3. Confirm the installation
 4. The extension icon will appear in your toolbar
