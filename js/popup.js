@@ -7,6 +7,7 @@ var progressBar = document.querySelector(config.domElements.progressBar)
 
 setDefaultUI()
 checkRunningState()
+loadConfigurationFromStorage()
 
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -63,6 +64,11 @@ $(config.domElements.mobileButton).on('click', async () => {
 // Start search desktop&mobile
 $(config.domElements.desktopMobileButton).on('click', async () => {
     startSearches('desktopMobile');
+})
+
+// Save configuration button
+$(config.domElements.saveConfigButton).on('click', async () => {
+    saveConfigurationToStorage();
 })
 
 /**
@@ -147,4 +153,61 @@ function activateForms() {
 function setProgress(value) {
     progressBar.style.width = value + "%"
     progressBar.innerText = value + "%"
+}
+
+/**
+ * Save configuration to Chrome Storage
+ */
+function saveConfigurationToStorage() {
+    const configData = {
+        desktop: parseInt($(config.domElements.totDesktopSearchesForm).val()),
+        mobile: parseInt($(config.domElements.totMobileSearchesForm).val()),
+        millisecondsMin: parseInt($(config.domElements.waitingBetweenSearchesFormMin).val()),
+        millisecondsMax: parseInt($(config.domElements.waitingBetweenSearchesFormMax).val())
+    };
+
+    chrome.storage.local.set({ 'rewardsSearchConfig': configData }, () => {
+        // Update config object
+        config.searches = configData;
+        
+        // Show notification
+        const notification = $(config.domElements.saveNotification);
+        notification.css('display', 'block');
+        notification.addClass('show');
+        
+        // Auto-hide notification after 3 seconds
+        setTimeout(() => {
+            notification.removeClass('show');
+            setTimeout(() => {
+                notification.css('display', 'none');
+            }, 150);
+        }, 3000);
+        
+        console.log('Configuration saved:', configData);
+    });
+}
+
+/**
+ * Load configuration from Chrome Storage
+ */
+function loadConfigurationFromStorage() {
+    chrome.storage.local.get(['rewardsSearchConfig'], (result) => {
+        if (result.rewardsSearchConfig) {
+            const savedConfig = result.rewardsSearchConfig;
+            
+            // Update config object
+            config.searches.desktop = savedConfig.desktop;
+            config.searches.mobile = savedConfig.mobile;
+            config.searches.millisecondsMin = savedConfig.millisecondsMin;
+            config.searches.millisecondsMax = savedConfig.millisecondsMax;
+            
+            // Update form inputs
+            $(config.domElements.totDesktopSearchesForm).val(savedConfig.desktop);
+            $(config.domElements.totMobileSearchesForm).val(savedConfig.mobile);
+            $(config.domElements.waitingBetweenSearchesFormMin).val(savedConfig.millisecondsMin);
+            $(config.domElements.waitingBetweenSearchesFormMax).val(savedConfig.millisecondsMax);
+            
+            console.log('Configuration loaded from storage:', savedConfig);
+        }
+    });
 }

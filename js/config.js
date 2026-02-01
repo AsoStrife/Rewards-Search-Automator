@@ -1,6 +1,6 @@
 let config = {
     general: {
-        appVersion: "v2.1.0",
+        appVersion: "v2.1.1",
         authorWebsiteLink: "https://andreacorriga.com",
         authorWebsiteLinkThanks: [
             "https://andreacorriga.com/rewards-search-automator/thanks",
@@ -58,7 +58,9 @@ let config = {
         storeLink: "#storeLink",
         rewardsLink: "#rewardsLink",
         f1PromoLink: "#btn-f1-promo",
-        progressBar: ".progress-bar"
+        progressBar: ".progress-bar",
+        saveConfigButton: "#saveConfigButton",
+        saveNotification: "#saveNotification"
 
     }
 }

@@ -149,6 +149,36 @@ body {
     color: white;
 }
 
+/* ========================================
+   SAVE CONFIGURATION BUTTON
+   ======================================== */
+
+.btn-save-config {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-save-config:hover {
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    transform: translateY(-2px);
+    color: white;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.btn-save-config:active {
+    transform: scale(0.95);
+}
+
+.btn-save-config i {
+    margin-right: 6px;
+}
+
 .btn-action:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -332,4 +362,37 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   NOTIFICATION
+   ======================================== */
+
+.alert {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.alert.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alert:not(.show) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success .btn-close {
+    filter: brightness(0) invert(1);
 }
