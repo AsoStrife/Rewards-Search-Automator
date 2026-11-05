@@ -1,6 +1,6 @@
 let config = {
   general: {
-    appVersion: "v2.2.0",
+    appVersion: "v2.2.1",
     authorWebsiteLink: "https://andreacorriga.com",
     authorWebsiteLinkThanks: [
       "https://andreacorriga.com/rewards-search-automator/thanks",

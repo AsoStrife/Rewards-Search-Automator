@@ -81,10 +81,8 @@ const config = {
     },
   },
   general: {
-    authorWebsiteLinkThanks: [
+    authorWebsiteLinkThanks:
       "https://andreacorriga.com/rewards-search-automator/thanks",
-      "https://rawe-ceek.strifelab.com/",
-    ],
   },
 };
 
@@ -315,11 +313,9 @@ async function activeDesktopAgent(tabId) {
 
 // Open author website
 function openAuthorWebsite() {
-  const choice =
-    Math.random() < 0.7
-      ? config.general.authorWebsiteLinkThanks[0]
-      : config.general.authorWebsiteLinkThanks[1];
-  chrome.tabs.update(searchState.tabId, { url: choice });
+  chrome.tabs.update(searchState.tabId, {
+    url: config.general.authorWebsiteLinkThanks,
+  });
 }
 
 // Perform a single search
