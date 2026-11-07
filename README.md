@@ -114,6 +114,20 @@ All settings can be adjusted in the popup before starting automation:
 - Adjust delays to balance between speed and natural appearance
 - Settings persist across sessions
 
+### External links
+
+With the extension installed, external workflows can configure or start searches by opening command URLs on Bing:
+
+```text
+https://bing.com/#/config?desktopSearches=10&mobileSearches=10&millisecondsMin=8000&millisecondsMax=10000
+https://bing.com/#/start?mode=both
+https://bing.com/#/stop
+```
+
+These commands are placed after `#` so Bing does not receive them as server routes and redirect them. `/config` updates any supplied settings and leaves omitted settings unchanged. Supported setting names are `desktopSearches`, `mobileSearches`, `millisecondsMin`, and `millisecondsMax`. `/start` accepts `mode=desktop`, `mode=mobile`, or `mode=both`, and uses the saved settings. You can also include any setting parameters in the `/start` URL to update them and start in one step. Delay values must be at least 100 ms, and the maximum must be greater than or equal to the minimum. `/stop` immediately halts any active search session and clears the current state.
+
+The command is handled by the extension when the URL is opened in a browser profile where it is installed; starting searches replaces the command tab with the first Bing search.
+
 ---
 
 ## 🛠️ Technical Details

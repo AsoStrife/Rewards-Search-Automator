@@ -20,6 +20,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   } else if (message.type === "stopped") {
     setProgress(0);
     activateForms();
+  } else if (message.type === "settingsUpdated") {
+    setSettingsInUI(message.settings);
   }
 });
 
@@ -38,26 +40,26 @@ async function checkRunningState() {
 
 $(config.domElements.totDesktopSearchesForm).on("change", function () {
   config.searches.desktop = $(config.domElements.totDesktopSearchesForm).val();
-  localStorage.setItem("desktopSearches", config.searches.desktop);
+  saveSettings();
 });
 
 $(config.domElements.totMobileSearchesForm).on("change", function () {
   config.searches.mobile = $(config.domElements.totMobileSearchesForm).val();
-  localStorage.setItem("mobileSearches", config.searches.mobile);
+  saveSettings();
 });
 
 $(config.domElements.waitingBetweenSearchesFormMin).on("change", function () {
   config.searches.millisecondsMin = $(
     config.domElements.waitingBetweenSearchesFormMin,
   ).val();
-  localStorage.setItem("millisecondsMin", config.searches.millisecondsMin);
+  saveSettings();
 });
 
 $(config.domElements.waitingBetweenSearchesFormMax).on("change", function () {
   config.searches.millisecondsMax = $(
     config.domElements.waitingBetweenSearchesFormMax,
   ).val();
-  localStorage.setItem("millisecondsMax", config.searches.millisecondsMax);
+  saveSettings();
 });
 
 // Start search desktop
@@ -119,25 +121,33 @@ function setDefaultUI() {
   // Set the app version number
   $(config.domElements.appVersion).html(config.general.appVersion);
 
-  // Load saved values from localStorage or use defaults
-  config.searches.desktop =
-    localStorage.getItem("desktopSearches") || config.searches.desktop;
-  config.searches.mobile =
-    localStorage.getItem("mobileSearches") || config.searches.mobile;
-  config.searches.millisecondsMin =
-    localStorage.getItem("millisecondsMin") || config.searches.millisecondsMin;
-  config.searches.millisecondsMax =
-    localStorage.getItem("millisecondsMax") || config.searches.millisecondsMax;
-
-  // Set numberOfSearches default values inside the input
-  $(config.domElements.totDesktopSearchesForm).val(config.searches.desktop);
-  $(config.domElements.totMobileSearchesForm).val(config.searches.mobile);
-  $(config.domElements.waitingBetweenSearchesFormMin).val(
-    config.searches.millisecondsMin,
-  );
-  $(config.domElements.waitingBetweenSearchesFormMax).val(
-    config.searches.millisecondsMax,
-  );
+  chrome.storage.local.get("settings", ({ settings }) => {
+    if (settings) {
+      setSettingsInUI(settings);
+    } else {
+      const legacySettings = {
+        desktopSearches:
+          localStorage.getItem("desktopSearches") || config.searches.desktop,
+        mobileSearches:
+          localStorage.getItem("mobileSearches") || config.searches.mobile,
+        millisecondsMin:
+          localStorage.getItem("millisecondsMin") ||
+          config.searches.millisecondsMin,
+        millisecondsMax:
+          localStorage.getItem("millisecondsMax") ||
+          config.searches.millisecondsMax,
+      };
+      setSettingsInUI(legacySettings);
+      chrome.runtime.sendMessage(
+        { type: "saveSettings", settings: legacySettings },
+        (response) => {
+          if (!response || !response.success) {
+            console.error("Failed to migrate saved settings:", response?.error);
+          }
+        },
+      );
+    }
+  });
 
   $(config.domElements.authorWebsiteLink).attr(
     "href",
@@ -152,6 +162,40 @@ function setDefaultUI() {
   $(config.domElements.f1PromoLink).attr(
     "href",
     config.general.authorWebsiteLinkThanks[1],
+  );
+}
+
+function setSettingsInUI(settings) {
+  config.searches.desktop = settings.desktopSearches;
+  config.searches.mobile = settings.mobileSearches;
+  config.searches.millisecondsMin = settings.millisecondsMin;
+  config.searches.millisecondsMax = settings.millisecondsMax;
+
+  $(config.domElements.totDesktopSearchesForm).val(settings.desktopSearches);
+  $(config.domElements.totMobileSearchesForm).val(settings.mobileSearches);
+  $(config.domElements.waitingBetweenSearchesFormMin).val(
+    settings.millisecondsMin,
+  );
+  $(config.domElements.waitingBetweenSearchesFormMax).val(
+    settings.millisecondsMax,
+  );
+}
+
+function saveSettings() {
+  const settings = {
+    desktopSearches: config.searches.desktop,
+    mobileSearches: config.searches.mobile,
+    millisecondsMin: config.searches.millisecondsMin,
+    millisecondsMax: config.searches.millisecondsMax,
+  };
+
+  chrome.runtime.sendMessage(
+    { type: "saveSettings", settings },
+    (response) => {
+      if (!response || !response.success) {
+        console.error("Failed to save settings:", response?.error);
+      }
+    },
   );
 }
 
